@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.onpointerdown = function(event) {
+function getpointerdata(event) {
     console.log("pressure: " + event.pressure);
     console.log("tangentialPressure: " + event.tangentialPressure);
     console.log("pointerType: " + event.pointerType);
@@ -12,7 +12,11 @@ canvas.onpointerdown = function(event) {
     console.log("twist: " + event.twist);
     console.log("width: " + event.width);
     console.log("height: " + event.height);
-    
+}
+
+canvas.onpointerenter = function(event) {
+    canvas.onpointerdown = getpointerdata;
+    // canvas.onpointermove = getpointerdata;
 
 
 };
