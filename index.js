@@ -12,6 +12,10 @@ function getpointerdata(event) {
     console.log("twist: " + event.twist);
     console.log("width: " + event.width);
     console.log("height: " + event.height);
+    console.log("clientX: " + event.clientX);
+    console.log("clientY: " + event.clientY);
+    console.log("button: " + event.button);
+    console.log("buttons: " + event.buttons);
 }
 
 canvas.onpointerenter = function(event) {
