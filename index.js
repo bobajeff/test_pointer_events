@@ -23,21 +23,40 @@ const penEraserButtonMoved = 32;
 const penBarrelButtonMoved = 2;
 const penContactMoved = 1;
 
-function getpointerdata(event) {
-    console.log("pointerType: " + event.pointerType);
+
+var msg = {
+    messages: "",
+    log: function(text){ this.messages += `<p class=\"log\">${text}</p>`},
+    warn: function(text){ this.messages += `<p class=\"warning\">⚠️ ${text}</p>`},
+    center: function(text){ this.messages += `<div class=\"center\"><p>${text}</p></div>`},
+    publish: function(){
+        log.innerHTML = this.messages;
+        this.messages = "";
+    }    
+}
+
+// msg.log = console.log;
+// msg.warn = console.warn;
+
+msg.center("Tap inside the green rectangle to test if your browser detects your digitizer");
+msg.publish();
+
+
+function getpointerdata(event) {  
+    msg.log("pointerType: " + event.pointerType);
     if (event.pointerType == penPointertype) {
 
         if (event.button == penContact) {
-            console.log("[Pen Contact]");
+            msg.log("[Pen Contact]");
         }
         else if (event.button == penEraserButton) {
-            console.log("[Eraser]");
+            msg.log("[Eraser]");
         }
         else if (event.button == penBarrelButton) {
-            console.log("[Pen Barrel Button]");
+            msg.log("[Pen Barrel Button]");
         }
         else {
-            console.log("button: " + event.button);
+            msg.log("button: " + event.button);
         }
 
 
@@ -54,49 +73,50 @@ function getpointerdata(event) {
         // }
 
         if (event.pressure != noPressureSupport) {
-            console.log("pressure: " + event.pressure);
+            msg.log("pressure: " + event.pressure);
         }
         else {
-            console.warn("No Pressure Support Detected.");
+            msg.warn("No Pressure Detected.");
         }
 
         if (event.tangentialPressure != notangentialPressureSupport) {
-            console.log("tangentialPressure: " + event.tangentialPressure);
+            msg.log("tangentialPressure: " + event.tangentialPressure);
         }
         else {
-            console.warn("No Tangential Pressure Support Detected.");
+            msg.warn("No Tangential Pressure Detected.");
         }
 
         if (event.tiltX != notiltXSupport && event.tiltY != notiltYSupport) {
-            console.log("tilt X: " + event.tiltX + "Y: " + event.tiltY);
+            msg.log("tilt X: " + event.tiltX + " Y: " + event.tiltY);
         }
         else {
-            console.warn("No Tilt Support Detected");
+            msg.warn("No Tilt Detected");
         }
 
         if (event.twist != notwistSupport) {
-            console.log("twist: " + event.twist);
+            msg.log("twist: " + event.twist);
         }
         else {
-            console.warn("No Twist Support Detected");
+            msg.warn("No Twist Detected");
         }
         if (event.width != noWidthSupport && event.height != noHeightSupport) {
-            console.log("contact: width: " + event.width + "height: " + event.height);
+            msg.log("contact: Width: " + event.width + " Height: " + event.height);
         }
         else {
-            console.warn("No Contact Geometry Support Detected")
+            msg.warn("No Contact Geometry Detected")
         }
 
     }
     else {
-        console.warn("Pen not Detected.");
-        console.log("button: " + event.button);
+        msg.warn("Pen not Detected.");
+        msg.log("button: " + event.button);
     }
     // console.log("isPrimary: " + event.isPrimary); //used for multitouch
-    console.log("pointerId: " + event.pointerId);
-    console.log("client: X: " + event.clientX + " Y: " + event.clientY);
-    console.log("----------------------------------------------")
+    msg.log("pointerId: " + event.pointerId);
+    msg.log("client: X: " + event.clientX + " Y: " + event.clientY);
+    msg.log("----------------------------------------------")
     // console.log("buttons: " + event.buttons); //used for when pointer is moved
+    msg.publish();
 }
 
 canvas.onpointerenter = function (event) {
