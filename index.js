@@ -17,59 +17,30 @@ const penEraserButton = 5;
 const penBarrelButton = 2;
 const penContact = 0;
 
-// Button when moving
+// Buttons state when moving
 
 const penEraserButtonMoved = 32;
 const penBarrelButtonMoved = 2;
 const penContactMoved = 1;
 
 function getpointerdata(event) {
+    console.log("pointerType: " + event.pointerType);
     if (event.pointerType == penPointertype) {
-        if (event.pressure != noPressureSupport) {
-            console.log("pressure: " + event.pressure);
-        }
-        else {
-            console.log("No Pressure Support Detected.");
-        }
-
-        if (event.tangentialPressure != notangentialPressureSupport) {
-            console.log("tangentialPressure: " + event.tangentialPressure);
-        }
-        else {
-            console.log("No Tangential Pressure Support Detected.");
-        }
-
-        if (event.tiltX != notiltXSupport && event.tiltY != notiltYSupport){
-            console.log("tiltX: " + event.tiltX);
-            console.log("tiltY: " + event.tiltY);
-        }
-        else {
-            console.log("No Tilt Support Detected");
-        }
-
-        if (event.twist != notwistSupport) {
-            console.log("twist: " + event.twist);
-        }
-        else {
-            console.log("No Twist Support Detected");
-        }
-        if (event.width != noWidthSupport && event.height != noHeightSupport) {
-            console.log("width: " + event.width);
-            console.log("height: " + event.height);
-        }
-        else {
-            console.log("No Contact Geometry Support Detected")
-        }
 
         if (event.button == penContact) {
-            console.log("Pen Contact Dectected");
+            console.log("[Pen Contact]");
         }
-        if (event.button == penEraserButton) {
-            console.log("Eraser Detected");
+        else if (event.button == penEraserButton) {
+            console.log("[Eraser]");
         }
-        if (event.button == penBarrelButton) {
-            console.log("Pen Barrel Button Detected");
+        else if (event.button == penBarrelButton) {
+            console.log("[Pen Barrel Button]");
         }
+        else {
+            console.log("button: " + event.button);
+        }
+
+
 
         // Detect Buttons Pressed During movement
         // if (event.buttons == penContactMoved) {
@@ -81,20 +52,54 @@ function getpointerdata(event) {
         // if (event.buttons == penBarrelButtonMoved) {
         //     console.log("Pen Barrel Button Detected");
         // }
+
+        if (event.pressure != noPressureSupport) {
+            console.log("pressure: " + event.pressure);
+        }
+        else {
+            console.warn("No Pressure Support Detected.");
+        }
+
+        if (event.tangentialPressure != notangentialPressureSupport) {
+            console.log("tangentialPressure: " + event.tangentialPressure);
+        }
+        else {
+            console.warn("No Tangential Pressure Support Detected.");
+        }
+
+        if (event.tiltX != notiltXSupport && event.tiltY != notiltYSupport) {
+            console.log("tilt X: " + event.tiltX + "Y: " + event.tiltY);
+        }
+        else {
+            console.warn("No Tilt Support Detected");
+        }
+
+        if (event.twist != notwistSupport) {
+            console.log("twist: " + event.twist);
+        }
+        else {
+            console.warn("No Twist Support Detected");
+        }
+        if (event.width != noWidthSupport && event.height != noHeightSupport) {
+            console.log("contact: width: " + event.width + "height: " + event.height);
+        }
+        else {
+            console.warn("No Contact Geometry Support Detected")
+        }
+
     }
     else {
-        console.log("Pen Device not Detected.");
+        console.warn("Pen not Detected.");
+        console.log("button: " + event.button);
     }
-    console.log("pointerType: " + event.pointerType);
     // console.log("isPrimary: " + event.isPrimary); //used for multitouch
     console.log("pointerId: " + event.pointerId);
-    console.log("clientX: " + event.clientX);
-    console.log("clientY: " + event.clientY);
-    console.log("button: " + event.button);
+    console.log("client: X: " + event.clientX + " Y: " + event.clientY);
+    console.log("----------------------------------------------")
     // console.log("buttons: " + event.buttons); //used for when pointer is moved
 }
 
-canvas.onpointerenter = function(event) {
+canvas.onpointerenter = function (event) {
     canvas.onpointerdown = getpointerdata;
     // canvas.onpointermove = getpointerdata;
 
