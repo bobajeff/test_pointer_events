@@ -1,27 +1,18 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const penPointertype = "pen";
-const pointerId = 1;
 const noPressureSupport = 0.5;
 const notangentialPressureSupport = 0;
 const notiltXSupport = 0;
 const notiltYSupport = 0;
 const notwistSupport = 0;
+//Contact Geometry (for "touch")
 const noWidthSupport = 1;
 const noHeightSupport = 1;
-
-// Button when not moving
-
+//Buttons
 const penEraserButton = 5;
 const penBarrelButton = 2;
 const penContact = 0;
-
-// Buttons state when moving
-
-const penEraserButtonMoved = 32;
-const penBarrelButtonMoved = 2;
-const penContactMoved = 1;
 
 
 var msg = {
@@ -66,8 +57,9 @@ msg.publish();
 
 function getpointerdata(event) {
     msg.log("pointerType: " + event.pointerType);
-    if (event.pointerType == penPointertype) {
+    if (event.pointerType == "pen") {
 
+        // ---------- PEN BUTTONS -------------
         if (event.button == penContact) {
             msg.log("[Pen Contact]");
         }
@@ -80,13 +72,14 @@ function getpointerdata(event) {
         else {
             msg.log("button: " + event.button);
         }
-
+        // ----------------------------------------
     }
     else {
         msg.err("Pen not Detected.");
         msg.err("pointerType = \"" + event.pointerType + "\"");
     }
 
+    //-----------PEN SENSORS-------------------
     if (event.pressure != noPressureSupport) {
         msg.log("pressure: " + event.pressure);
     }
@@ -115,15 +108,20 @@ function getpointerdata(event) {
     else {
         msg.warn("No Twist Detected");
     }
-    if (event.width != noWidthSupport && event.height != noHeightSupport) {
-        msg.log("contact: Width: " + event.width + " Height: " + event.height);
+    //-------------------------------------------
+    //---------------TOUCH SENSORS---------------
+    if (event.pointerType == "touch") {
+        if (event.width != noWidthSupport && event.height != noHeightSupport) {
+            msg.log("contact: Width: " + event.width + " Height: " + event.height);
+        }
+        else {
+            msg.warn("No Contact Geometry Detected")
+        }
     }
-    else {
-        msg.warn("No Contact Geometry Detected")
-    }
+    //-------------------------------------------
     msg.log("pointerId: " + event.pointerId);
     msg.log("client: X: " + event.clientX + " Y: " + event.clientY);
-    msg.log("----------------------------------------------")
+    console.log("----------------------------------------------")
 
     msg.publish();
 }
