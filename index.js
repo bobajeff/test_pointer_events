@@ -32,7 +32,7 @@ var msg = {
         console.log(text);
     },
     warn: function (text) {
-        this.messages += `<div class=\"warning\">⚠️ ${text}</div><br>`;
+        this.messages += `<div class=\"warning\">⚠️ ${text}<br></div>`;
         console.warn(text);
     },
     err: function (text) {
@@ -81,47 +81,46 @@ function getpointerdata(event) {
             msg.log("button: " + event.button);
         }
 
-
-        if (event.pressure != noPressureSupport) {
-            msg.log("pressure: " + event.pressure);
-        }
-        else {
-            msg.warn("No Pressure Detected.");
-        }
-
-        if (event.tangentialPressure != notangentialPressureSupport) {
-            msg.log("tangentialPressure: " + event.tangentialPressure);
-        }
-        else {
-            msg.warn("No Tangential Pressure Detected.");
-        }
-
-        if (event.tiltX != notiltXSupport && event.tiltY != notiltYSupport) {
-            msg.log("tilt X: " + event.tiltX + " Y: " + event.tiltY);
-        }
-        else {
-            msg.warn("No Tilt Detected");
-        }
-
-        if (event.twist != notwistSupport) {
-            msg.log("twist: " + event.twist);
-        }
-        else {
-            msg.warn("No Twist Detected");
-        }
-        if (event.width != noWidthSupport && event.height != noHeightSupport) {
-            msg.log("contact: Width: " + event.width + " Height: " + event.height);
-        }
-        else {
-            msg.warn("No Contact Geometry Detected")
-        }
-
     }
     else {
         msg.err("Pen not Detected.");
         msg.err("pointerType = \"" + event.pointerType + "\"");
     }
 
+    if (event.pressure != noPressureSupport) {
+        msg.log("pressure: " + event.pressure);
+    }
+    else {
+        msg.warn("No Pressure Detected.");
+    }
+
+
+    if (event.tangentialPressure != notangentialPressureSupport) {
+        msg.log("tangentialPressure: " + event.tangentialPressure);
+    }
+    else {
+        msg.warn("No Tangential Pressure Detected.");
+    }
+
+    if (event.tiltX != notiltXSupport && event.tiltY != notiltYSupport) {
+        msg.log("tilt X: " + event.tiltX + " Y: " + event.tiltY);
+    }
+    else {
+        msg.warn("No Tilt Detected");
+    }
+
+    if (event.twist != notwistSupport) {
+        msg.log("twist: " + event.twist);
+    }
+    else {
+        msg.warn("No Twist Detected");
+    }
+    if (event.width != noWidthSupport && event.height != noHeightSupport) {
+        msg.log("contact: Width: " + event.width + " Height: " + event.height);
+    }
+    else {
+        msg.warn("No Contact Geometry Detected")
+    }
     msg.log("pointerId: " + event.pointerId);
     msg.log("client: X: " + event.clientX + " Y: " + event.clientY);
     msg.log("----------------------------------------------")
