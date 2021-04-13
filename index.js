@@ -27,15 +27,24 @@ const penContactMoved = 1;
 var msg = {
     messages: "",
     error_messages: "",
-    log: function(text){ this.messages += `<div>${text}<br></div>`},
-    warn: function(text){ this.messages += `<div class=\"warning\">⚠️ ${text}</div><br>`},
-    err: function(text){ this.error_messages += `${text}</br>`},
-    center: function(text){ this.messages += `<div class=\"center\"><div>${text}</div></div>`},
-    publish: function(){
+    log: function (text) {
+        this.messages += `<div>${text}<br></div>`;
+        console.log(text);
+    },
+    warn: function (text) {
+        this.messages += `<div class=\"warning\">⚠️ ${text}</div><br>`;
+        console.warn(text);
+    },
+    err: function (text) {
+        this.error_messages += `${text}<br><br>`;
+        console.error(text);
+    },
+    center: function (text) { this.messages += `<div class=\"center\"><div>${text}</div></div>` },
+    publish: function () {
         if (this.error_messages != "") {
             log.classList.add("redbg");
             this.red = true;
-            this.messages  += `<div class=\"center\"><div>${this.error_messages}</div></div>`;
+            this.messages += `<div class=\"center\"><div>${this.error_messages}</div></div>`;
             log.innerHTML = this.messages;
             this.error_messages = "";
             this.messages = "";
@@ -51,14 +60,11 @@ var msg = {
     }
 }
 
-// msg.log = console.log;
-// msg.warn = console.warn;
-
 msg.center("Tap inside the green rectangle to test if your browser detects your digitizer");
 msg.publish();
 
 
-function getpointerdata(event) {  
+function getpointerdata(event) {
     msg.log("pointerType: " + event.pointerType);
     if (event.pointerType == penPointertype) {
 
@@ -75,18 +81,6 @@ function getpointerdata(event) {
             msg.log("button: " + event.button);
         }
 
-
-
-        // Detect Buttons Pressed During movement
-        // if (event.buttons == penContactMoved) {
-        //     console.log("Pen Contact Dectected");
-        // }
-        // if (event.buttons == penEraserButtonMoved) {
-        //     console.log("Eraser Detected");
-        // }
-        // if (event.buttons == penBarrelButtonMoved) {
-        //     console.log("Pen Barrel Button Detected");
-        // }
 
         if (event.pressure != noPressureSupport) {
             msg.log("pressure: " + event.pressure);
@@ -125,19 +119,16 @@ function getpointerdata(event) {
     }
     else {
         msg.err("Pen not Detected.");
-        msg.err("<br>pointerType = \"" + event.pointerType + "\"");
+        msg.err("pointerType = \"" + event.pointerType + "\"");
     }
-    // console.log("isPrimary: " + event.isPrimary); //used for multitouch
+
     msg.log("pointerId: " + event.pointerId);
     msg.log("client: X: " + event.clientX + " Y: " + event.clientY);
     msg.log("----------------------------------------------")
-    // console.log("buttons: " + event.buttons); //used for when pointer is moved
+
     msg.publish();
 }
 
 canvas.onpointerenter = function (event) {
     canvas.onpointerdown = getpointerdata;
-    // canvas.onpointermove = getpointerdata;
-
-
 };
