@@ -26,13 +26,29 @@ const penContactMoved = 1;
 
 var msg = {
     messages: "",
-    log: function(text){ this.messages += `<p class=\"log\">${text}</p>`},
-    warn: function(text){ this.messages += `<p class=\"warning\">⚠️ ${text}</p>`},
-    center: function(text){ this.messages += `<div class=\"center\"><p>${text}</p></div>`},
+    error_messages: "",
+    log: function(text){ this.messages += `<div>${text}<br></div>`},
+    warn: function(text){ this.messages += `<div class=\"warning\">⚠️ ${text}</div><br>`},
+    err: function(text){ this.error_messages += `${text}</br>`},
+    center: function(text){ this.messages += `<div class=\"center\"><div>${text}</div></div>`},
     publish: function(){
-        log.innerHTML = this.messages;
-        this.messages = "";
-    }    
+        if (this.error_messages != "") {
+            log.classList.add("redbg");
+            this.red = true;
+            this.messages  += `<div class=\"center\"><div>${this.error_messages}</div></div>`;
+            log.innerHTML = this.messages;
+            this.error_messages = "";
+            this.messages = "";
+        }
+        else {
+            if (this.red == true) {
+                log.classList.remove("redbg");
+                this.red = false;
+            }
+            log.innerHTML = this.messages;
+            this.messages = "";
+        }
+    }
 }
 
 // msg.log = console.log;
@@ -108,8 +124,8 @@ function getpointerdata(event) {
 
     }
     else {
-        msg.warn("Pen not Detected.");
-        msg.log("button: " + event.button);
+        msg.err("Pen not Detected.");
+        msg.err("<br>pointerType = \"" + event.pointerType + "\"");
     }
     // console.log("isPrimary: " + event.isPrimary); //used for multitouch
     msg.log("pointerId: " + event.pointerId);
