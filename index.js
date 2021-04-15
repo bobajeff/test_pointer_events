@@ -51,7 +51,7 @@ var msg = {
     }
 }
 
-msg.center("Tap inside the green rectangle to test if your browser detects your digitizer");
+msg.center("Tap inside the green rectangle to check for pressure and tilt events.");
 msg.publish();
 
 
@@ -60,6 +60,7 @@ function getpointerdata(event) {
     if (event.pointerType == "pen") {
 
         // ---------- PEN BUTTONS -------------
+        msg.log("button:" + event.button);
         if (event.button == penContact) {
             msg.log("[Pen Contact]");
         }
@@ -84,29 +85,11 @@ function getpointerdata(event) {
         msg.warn("No Pressure Detected.");
     }
 
-
-    msg.log("tangentialPressure: " + event.tangentialPressure);
-    if (event.tangentialPressure == notangentialPressureSupport) {
-        msg.warn("No Tangential Pressure Detected.");
-    }
-
     msg.log("tiltX: " + event.tiltX + " tiltY: " + event.tiltY);
     if (event.tiltX == notiltXSupport && event.tiltY == notiltYSupport) {
         msg.warn("No Tilt Detected");
     }
 
-    msg.log("twist: " + event.twist);
-    if (event.twist == notwistSupport) {
-        msg.warn("No Twist Detected");
-    }
-    //-------------------------------------------
-    //---------------TOUCH SENSORS---------------
-    if (event.pointerType == "touch") {
-        msg.log("Width: " + event.width + " Height: " + event.height);
-        if (event.width == noWidthSupport && event.height == noHeightSupport) {
-            msg.warn("No Contact Geometry Detected")
-        }
-    }
     //-------------------------------------------
     console.log("----------------------------------------------")
 
